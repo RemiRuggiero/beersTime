@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos événements - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="event-show">
+    <div class="event-show__picture" style="background-image: url('{{ event.picture }}');">
+        <h1>{{ event.name }}</h1>
+    </div>
+    
+    <div class="row">
+        <p class="col-12 col-lg-8">
+            {{ event.description }}
+        </p>
+        <aside class="col-12 col-lg-4">
+            <ul>
+                <li>Début : {{ date( event.startAt )|date('d/m/Y H:i') }}</li>
+                <li>Fin : {{ date( event.endAt )|date('d/m/Y H:i') }}</li>
+                <li>Prix : {{ event.price ? event.price|format_currency('EUR') : 'Gratuit' }}</li>
+                <li>Lieu : {{ event.place }}</li>
+                <li>Capacité : {{ event.capacity }}</li>
+            </ul>
+        </aside>
+    </div>
+
+</div>
+{% endblock %}

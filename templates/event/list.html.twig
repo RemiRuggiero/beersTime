@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos événements - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="events">
+    <h1>Nos événements</h1>
+
+    <div class="row">
+        {% for event in events %}
+            <div class="col-12 col-lg-4">
+                <div class="card event">
+                    <div class="card-img-top" style="background-image: url('{{ event.picture }}');">
+                        {% set today = date() %}
+                        {% if date( event.startAt ) > today %}
+                            {% set status = {class: "primary", text: "A venir"} %}
+                        {% elseif date( event.endAt ) > today %}
+                            {% set status = {class: "warning", text: "En cours"} %}
+                        {% else %}
+                            {% set status = {class: "danger", text: "Passé"} %}
+                        {% endif %}
+
+                        <div class="badge badge-pill badge-{{ status.class }}">
+                            {{ status.text }}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ event.name }}</h2>
+                        <p class="card-text">{{ event.description|slice(0, 120) }}</p>
+                        <a href="{{ path( 'event_show', {id: event.id} ) }}" class="btn btn-primary">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
