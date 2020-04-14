@@ -17,8 +17,9 @@
                 <li>Début : {{ date( event.startAt )|date('d/m/Y H:i') }}</li>
                 <li>Fin : {{ date( event.endAt )|date('d/m/Y H:i') }}</li>
                 <li>Prix : {{ event.price ? event.price|format_currency('EUR') : 'Gratuit' }}</li>
-                <li>Lieu : {{ event.place }}</li>
-                <li>Capacité : {{ event.capacity }}</li>
+                <li>Lieu : {{ event.place.name }} ({{ event.place.address ~ " - " ~ event.place.city }})</li>
+                <li>Capacité : {{ event.capacity ?? 'Ilimité' }}</li>
+                <li>Organisateur : {{ event.owner.email }}</li>
             </ul>
         </aside>
     </div>

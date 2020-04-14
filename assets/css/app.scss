@@ -6,7 +6,7 @@ body{
 }
 
 nav.navbar{
-    background-color: #e67e22!important;
+    background-color: #000000!important;
     .navbar-brand img{
         height: 40px;
     }
@@ -20,7 +20,7 @@ main{
 footer{
     padding: 20px;
     color: white;
-    background-color: #e67e22;
+    background-color: #000000;
     text-align: center;
 }
 
@@ -48,6 +48,10 @@ footer{
 .events{
     width: 100%;
 
+    h1{
+        text-align: center;
+        margin-top: 0.3em;
+    }
     .row{
         margin: 0 auto;
 

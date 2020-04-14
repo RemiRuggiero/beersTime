@@ -19,6 +19,39 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    public function countIncomingEvent()
+    {
+        $stmt = $this->createQueryBuilder('e');
+        $stmt->select('count(e.id)');
+        $stmt->where('e.startAt > :now');
+        $stmt->setParameter( 'now', new \DateTime() );
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
+
+    public function searchByName( $query ) // Pour chercher dans la barre de recherche
+    {
+        $stmt = $this->createQueryBuilder( 'e' );
+        $stmt->where( 'e.name LIKE :DEZER' );
+        $stmt->setParameter( 'DEZER', '%' . $query . '%' );
+
+        return $stmt->getQuery()->getResult();
+    }
+
+    public function getRandom() // Trouver l'inspiration
+    {
+        $stmt = $this->createQueryBuilder('e');
+        $stmt->select('e.id');
+        // TODO 
+        // Installer https://github.com/beberlei/DoctrineExtensions
+        $stmt->where('e.endAt > NOW()');
+        $stmt->orderBy( 'RAND()' );
+        $stmt->setMaxResults( 1 );
+        // Ajouter une séléction aléatoire 
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
+    
+
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */

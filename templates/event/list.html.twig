@@ -4,8 +4,9 @@
 
 {% block body %}
 <div class="events">
-    <h1>Nos événements</h1>
+    <h1>Events</h1>
 
+    <p>Il y a {{ nIncomingEvents }} événnement(s) à venir</p>
     <div class="row">
         {% for event in events %}
             <div class="col-12 col-lg-4">
