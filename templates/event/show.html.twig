@@ -21,6 +21,10 @@
                 <li>Capacité : {{ event.capacity ?? 'Ilimité' }}</li>
                 <li>Organisateur : {{ event.owner.email }}</li>
             </ul>
+            <div class="actions mb-3">
+                <a href="{{ path( 'event_update', { id: event.id } ) }}" class="btn btn-dark">Modifier</a>
+                <a href="{{ path( 'event_remove', { id: event.id } ) }}" class="btn btn-danger">Supprimer</a>
+            </div>
         </aside>
     </div>
 

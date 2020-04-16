@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ isNew ? 'Créer' : 'Modifier' }} un événement - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form_start( form, {
+        'attr': {
+            'class': 'container my-5',
+            'novalidate': 'novalidate',
+        }
+    } ) }}
+
+    <div class="row">
+        <div class="col-12">
+            {{ form_row( form.name ) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ form_row( form.description ) }}
+            {{ form_row( form.picture ) }}
+            {{ form_row( form.price ) }}
+            {{ form_row( form.capacity ) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ form_row( form.startAt ) }}
+            {{ form_row( form.endAt ) }}
+            {{ form_row( form.place ) }}
+            {{ form_row( form.categories ) }}
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-warning btn-lg">{{ isNew ? 'Créer' : 'Modifier' }}</button>
+    </div>
+    {{ form_end( form ) }}
+{% endblock %}

@@ -4,37 +4,50 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}BeerTime{% endblock %}</title>
+        <title>{% block title %}Fucking Events{% endblock %}</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <div class="toaster">
+             {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+             {% endfor %}
+        </div>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="{{ path('main_home') }}">
                 <img src="{{ asset('build/images/icon.png') }}" alt="Logo de BeerTime">
-                BeerTime
+                Fucking Events
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% set current_path = app.request.get('_route') %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('event_list') }}">Nos événements</a>
+                        <a class="nav-link {{ current_path == 'event_list' ? 'active' : '' }}" href="{{ path('event_list') }}">Nos événements</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('event_new') }}">Créer un événement</a>
+                        <a class="nav-link {{ current_path == 'event_new' ? 'active' : '' }}" href="{{ path('event_new') }}">Créer un événement</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('event_random') }}">Trouver l'inspiration</a>
+                        <a class="nav-link {{ current_path == 'event_random' ? 'active' : '' }}" href="{{ path('event_random') }}">Trouver l'inspiration</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" method='get' action={{ path('event_list')}}>
                     <input name="DEZER" {# Pour chercher dans la barre de recherche #} class="form-control mr-sm-2" type="search" placeholder="Rechercher ..." aria-label="Recherche">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Recherche</button>
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Recherche</button>
                 </form>
             </div>
         </nav>
@@ -44,7 +57,7 @@
         </main>
 
         <footer>
-            BeerTime - Tous droits reservés {{ date()|date('Y') }}
+            Fucking Events - Tous droits reservés {{ date()|date('Y') }}
         </footer>
 
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

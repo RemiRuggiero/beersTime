@@ -21,9 +21,9 @@ class EventRepository extends ServiceEntityRepository
 
     public function countIncomingEvent()
     {
-        $stmt = $this->createQueryBuilder('e');
+        $stmt = $this->createQueryBuilder('e'); // createbuilder : Initialisation du Query Builder = Pour Récup les Intitées SQL
         $stmt->select('count(e.id)');
-        $stmt->where('e.startAt > :now');
+        $stmt->where('e.startAt > :now'); // pour un parametre on commence par ":"
         $stmt->setParameter( 'now', new \DateTime() );
 
         return $stmt->getQuery()->getSingleScalarResult();
