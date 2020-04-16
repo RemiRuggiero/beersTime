@@ -26,7 +26,7 @@ class EventType extends AbstractType
                     'rows' => 5,
                 )
             ))
-            ->add('pictureFile', FileType::class, array(
+            ->add('PictureFile', FileType::class, array(
                 'label' => 'Image',
                 'help' => 'Image PNG ou JPEG inférieure à 2M',
             ))

@@ -108,7 +108,10 @@ class Event
     private $participations;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez séléctionner une image pour votre événement" )
+     * @Assert\Expression(
+     *     "this.getPicture() or this.getPictureFile()",
+     *     message="Vous devez séléctionner une image pour votre événement"
+     * )
      * @Assert\File(
      *     maxSize = "2M",
      *     maxSizeMessage = "Votre fichier est trop lourd, il ne doit pas dépasser {{ limit }}{{ suffix }}",
