@@ -2,24 +2,27 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use App\Service\EventService;
 use App\Entity\Event;
-use App\Repository\PlaceRepository;
-use App\Repository\UserRepository;
 use App\Entity\Place;
 use App\Form\EventType;
+use App\Service\EventService;
+use App\Service\MediaService;
+use App\Repository\UserRepository;
+use App\Repository\PlaceRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EventController extends AbstractController
 {
     private $eventService;
+    private $mediaService;
 
-    public function __construct( EventService $eventService ){
+    public function __construct( EventService $eventService, MediaService $mediaService ){
         $this->eventService = $eventService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -53,6 +56,10 @@ class EventController extends AbstractController
         if( $form->isSubmitted()&& $form->isValid() ) {
             $owner = $userRepository->find( 1 );
             $event->setOwner( $owner );
+
+            $file = $event->getPictureFile();
+            $filename = $this->mediaService->upload( $file );
+            $event->setPicture( $filename );
 
             $this->addFlash( 'success', "Votre événement \"" . $event->getName() . "\" à bien été créé" );
             $em->persist( $event );

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 // pour ajouter des instructions dans les commentaires pour les erreurs form
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -48,11 +50,6 @@ class Event
     private $description;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez saisir une URL d'image pour votre événement" )
-     * @Assert\Url(
-     *    message = "Vous devez saisir une URL valide",
-     * )
-     * @Assert\Regex("/^.*\.(jpg|jpeg|png|webp)$/", message = "Votre URL doit pointer sur une image")
      * @ORM\Column(type="string", length=255)
      */
     private $picture;
@@ -109,6 +106,17 @@ class Event
      * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="event", orphanRemoval=true)
      */
     private $participations;
+
+    /**
+     * @Assert\NotBlank( message = "Vous devez séléctionner une image pour votre événement" )
+     * @Assert\File(
+     *     maxSize = "2M",
+     *     maxSizeMessage = "Votre fichier est trop lourd, il ne doit pas dépasser {{ limit }}{{ suffix }}",
+     *     mimeTypes = {"image/png", "image/jpeg"},
+     *     mimeTypesMessage = "Seul les images PNG et JPEG sont autorisées",
+     * )
+     */
+    private $PictureFile;
 
     public function __construct()
     {
@@ -298,10 +306,23 @@ class Event
         return $this;
     }
 
+    public function getPictureFile(): ?File
+    {
+        return $this->PictureFile;
+    }
+
+    public function setPictureFile(File $PictureFile): self
+    {
+        $this->PictureFile = $PictureFile;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      */
     public function autoSetCreatedAt(){
         $this->createdAt = new \DateTime();
     }
+
 }

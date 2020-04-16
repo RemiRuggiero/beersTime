@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class EventType extends AbstractType
 {
@@ -26,9 +26,9 @@ class EventType extends AbstractType
                     'rows' => 5,
                 )
             ))
-            ->add('picture', UrlType::class, array(
+            ->add('pictureFile', FileType::class, array(
                 'label' => 'Image',
-                'help' => 'L\'URL de l\'image de votre événement',
+                'help' => 'Image PNG ou JPEG inférieure à 2M',
             ))
             ->add('startAt', null, array(
                 'label' => 'Début de l\'événement',

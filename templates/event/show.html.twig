@@ -4,7 +4,8 @@
 
 {% block body %}
 <div class="event-show">
-    <div class="event-show__picture" style="background-image: url('{{ event.picture }}');">
+    {% set picture = ( event.picture matches '/^http/' ) ? event.picture : asset( 'data/' ~ event.picture ) %}
+    <div class="event-show__picture" style="background-image: url('{{ picture }}');">
         <h1>{{ event.name }}</h1>
     </div>
     

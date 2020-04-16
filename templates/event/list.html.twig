@@ -11,7 +11,8 @@
         {% for event in events %}
             <div class="col-12 col-lg-4">
                 <div class="card event">
-                    <div class="card-img-top" style="background-image: url('{{ event.picture }}');">
+                    {% set picture = ( event.picture matches '/^http/' ) ? event.picture : asset( 'data/' ~ event.picture ) %}
+                    <div class="card-img-top" style="background-image: url('{{ picture }}');">
                         {% set today = date() %}
                         {% if date( event.startAt ) > today %}
                             {% set status = {class: "primary", text: "A venir"} %}
