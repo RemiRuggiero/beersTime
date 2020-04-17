@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form_start( form, {
+        'attr': {
+            'class': 'container-fluid my-2',
+            'novalidate': 'novalidate',
+        }
+    } ) }}
+
+    <div class="row">
+        <div class="col-12">
+            {{ form_row( form.username ) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ form_row( form.email ) }}
+            {{ form_row( form.plainPassword ) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ form_row( form.firstname ) }}
+            {{ form_row( form.lastname ) }}
+            {{ form_row( form.birthday ) }}
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary btn-lg">S'inscrire</button>
+    </div>
+    {{ form_end( form ) }}
+{% endblock %}

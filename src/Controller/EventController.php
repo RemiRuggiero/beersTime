@@ -47,15 +47,14 @@ class EventController extends AbstractController
     /**
      * @Route("/event/new", name="event_new")
      */
-    public function new( Request $request, EntityManagerInterface $em, UserRepository $userRepository )
+    public function new( Request $request, EntityManagerInterface $em )
     {
         $event = new event();
         $form = $this->createForm( EventType::class, $event);
 
         $form->handleRequest($request); // reprends toutes les données saisi dans le formulaire
         if( $form->isSubmitted()&& $form->isValid() ) {
-            $owner = $userRepository->find( 1 );
-            $event->setOwner( $owner );
+            $event->setOwner( $this->getUser() );
 
             $file = $event->getPictureFile();
             $filename = $this->mediaService->upload( $file );
@@ -111,6 +110,10 @@ class EventController extends AbstractController
      */
     public function update( Event $event, Request $request, EntityManagerInterface $em )
     {
+        if( $this->getUser() !== $event->getOwner() ){
+            return $this->redirectToRoute( 'main_home' );
+        }
+
         $form = $this->createForm( EventType::class, $event );
 
         $form->handleRequest( $request );
@@ -140,6 +143,10 @@ class EventController extends AbstractController
      */
     public function remove( Event $event, EntityManagerInterface $em )  // EntityManager gère la bdd
     {
+        if( $this->getUser() !== $event->getOwner() ){
+            return $this->redirectToRoute( 'main_home' );
+        }
+        
         $em->remove( $event );
         $em->flush();
 

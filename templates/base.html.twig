@@ -5,7 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Fucking Events{% endblock %}</title>
-
+        
+        <link rel="icon" type="image/png" href="{{ asset('build/images/Favicon_LWR.png') }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
@@ -25,7 +26,7 @@
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="{{ path('main_home') }}">
-                <img src="{{ asset('build/images/icon.png') }}" alt="Logo de BeerTime">
+                <img src="{{ asset('build/images/skullpicto.png') }}" alt="Logo de BeerTime">
                 Fucking Events
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +50,14 @@
                     <input name="DEZER" {# Pour chercher dans la barre de recherche #} class="form-control mr-sm-2" type="search" placeholder="Rechercher ..." aria-label="Recherche">
                     <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Recherche</button>
                 </form>
+                <div>
+                    {% if app.user is empty %}
+                        <a href="{{ path('user_login') }}" class="mx-2 text-decoration-none text-light">Connexion</a>
+                        <a href="{{ path('user_register') }}" class="btn btn-light">Inscription</a>
+                    {% else %}
+                        <a href="{{ path('user_logout') }}" class="btn btn-danger mx-2">Déconnexion</a>
+                    {% endif %}
+                </div>
             </div>
         </nav>
 

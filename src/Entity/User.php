@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @UniqueEntity("username", message = "Ce nom d'utilisateur est déjà pris")
+ * @UniqueEntity("email", message = "Cette adresse e-mail est déjà utilisée")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,31 +24,57 @@ class User
     private $id;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir un nom d'utilisateur" )
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 25,
+     *      minMessage = "Le nom doit comporter au minimum {{ limit }} caractères",
+     *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
+     * )
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $username;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir une adresse e-mail" )
+     * @Assert\Email(
+     *     message = "L'adresse e-mail n'est pas valide"
+     * )
      * @ORM\Column(type="string", length=100)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir votre prénom" )
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Le prénom doit comporter au minimum {{ limit }} caractères",
+     *      maxMessage = "Le prénom doit comporter au maximum {{ limit }} caractères",
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $firstName;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir votre nom" )
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Le nom doit comporter au minimum {{ limit }} caractères",
+     *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $lastName;
 
     /**
+     * @Assert\LessThanOrEqual("-18 years", message = "Vous devez être majeur pour créer un compte")
      * @ORM\Column(type="date")
      */
     private $birthday;
@@ -62,6 +93,17 @@ class User
      * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="user", orphanRemoval=true)
      */
     private $participations;
+
+    /**
+     * @Assert\NotBlank( message = "Vous devez saisir un mot de passe" )
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 16,
+     *      minMessage = "Le mot de passe doit comporter au minimum {{ limit }} caractères",
+     *      maxMessage = "Le mot de passe doit comporter au maximum {{ limit }} caractères",
+     * )
+     */   
+    private $plainPassword;
 
     public function __construct()
     {
@@ -216,6 +258,25 @@ class User
                 $participation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials(){}
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

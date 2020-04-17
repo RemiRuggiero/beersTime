@@ -1,3 +1,3 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-    form_themes: ['bootstrap_4_layout.html.twig'] # boostrap formulaire
+    form_themes: ['bootstrap_4_layout.html.twig', 'component/form_error.html.twig']  # boostrap formulaire

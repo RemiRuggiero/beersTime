@@ -20,11 +20,13 @@
                 <li>Prix : {{ event.price ? event.price|format_currency('EUR') : 'Gratuit' }}</li>
                 <li>Lieu : {{ event.place.name }} ({{ event.place.address ~ " - " ~ event.place.city }})</li>
                 <li>Capacité : {{ event.capacity ?? 'Ilimité' }}</li>
-                <li>Organisateur : {{ event.owner.email }}</li>
+                <li>Organisateur : {{ event.owner.username }}</li>
             </ul>
             <div class="actions mb-3">
-                <a href="{{ path( 'event_update', { id: event.id } ) }}" class="btn btn-dark">Modifier</a>
-                <a href="{{ path( 'event_remove', { id: event.id } ) }}" class="btn btn-danger">Supprimer</a>
+                {% if app.user == event.owner %}
+                    <a href="{{ path( 'event_update', { id: event.id } ) }}" class="btn btn-info">Modifier</a>
+                    <a href="{{ path( 'event_remove', { id: event.id } ) }}" class="btn btn-danger">Supprimer</a>
+                {% endif %}
             </div>
         </aside>
     </div>
